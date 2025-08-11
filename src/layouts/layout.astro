@@ -1,0 +1,23 @@
+---
+import BaseLayout from "#/layouts/base-layout.astro";
+import Hero from "#/components/hero.astro";
+import { SSApiService } from "#/lib/ss-api";
+import Categories from "#/components/categories.astro";
+export const prerender = false;
+
+const { count, activeCategory } = Astro.props;
+
+const ssApi = new SSApiService();
+const categories = await ssApi.categories();
+---
+
+<BaseLayout>
+  <head>
+    <slot name="head" />
+  </head>
+  <main class="pb-32 pt-3">
+    <Hero count={count} />
+    <Categories categories={categories} activeCategory={activeCategory} />
+    <slot />
+  </main>
+</BaseLayout>
