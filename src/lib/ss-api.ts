@@ -40,5 +40,5 @@ export class SSApiService {
 
     categorySeo(slug: string): Promise<SeoIndex> {
         return this.get(`/categories/seo/${slug}`);
-    }
+    }  
 }
