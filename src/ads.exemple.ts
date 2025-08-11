@@ -1,0 +1,1 @@
+export const DIRECT_URL = 'https://your-direct-link-ads-url.com';
