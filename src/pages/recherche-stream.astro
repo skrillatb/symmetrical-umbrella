@@ -6,11 +6,14 @@ import BaseLayout from "#/layouts/base-layout.astro";
 const title = Astro.url.searchParams.get("title") ?? "";
 const data = [];
 
+console.log(
+  `${import.meta.env.VITE_APP_URL}api/search.json?title=${encodeURIComponent(title)}`
+);
+
 if (title) {
   const search = (await fetch(
-    `http://localhost:4321/api/search.json?title=${encodeURIComponent(title)}`
+    `${import.meta.env.VITE_APP_URL}api/search.json?title=${encodeURIComponent(title)}`
   )) as { ok: boolean; json: () => Promise<{ results: any[] }> };
-
   if (search.ok) {
     const json = await search.json();
     if (Array.isArray(json?.results)) data.push(...json.results);
