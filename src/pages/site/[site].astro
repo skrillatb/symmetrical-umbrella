@@ -1,0 +1,152 @@
+---
+import BaseLayout from "#/layouts/base-layout.astro";
+import { Image } from "astro:assets";
+import { getHumanDate } from "#/lib/utils";
+import { SSApiService } from "#/lib/ss-api";
+import Button from "#/components/button.astro";
+import { config } from "#/config";
+import type { Category } from "#/types/ss-api";
+
+const { site } = Astro.params;
+
+if (!site) {
+  return Astro.redirect("/404");
+}
+
+const ssApi = new SSApiService();
+
+const siteData = await ssApi.show(site);
+
+if (!siteData) {
+  return Astro.redirect("/404");
+}
+
+const { humanDate: verificationDate } = getHumanDate({
+  created_at: siteData.status.checked_at,
+  updated: false,
+});
+
+const { humanDate: updatedDate } = getHumanDate({
+  created_at: siteData.site.updated_at,
+  updated: true,
+});
+
+const { humanDate: createdAt } = getHumanDate({
+  created_at: siteData.site.created_at,
+  updated: false,
+});
+---
+
+<BaseLayout>
+  <head slot="head">
+    <title>{siteData.site.name}</title>
+    <meta
+      name="description"
+      content={siteData.site.description || "A site on our platform"}
+    />
+    <meta property="og:title" content={siteData.site.name} />
+    <meta
+      property="og:description"
+      content={siteData.site.description || "A site on our platform"}
+    />
+    <meta property="og:image" content={siteData.site.image_id} />
+    <meta property="og:url" content={`https://example.com/site/${site}`} />
+    <link
+      rel="preload"
+      as="image"
+      href={`${siteData.cdn}${siteData.site.image_id}`}
+    />
+  </head>
+  <main
+    class="pb-32 pt-3 mx-auto w-full px-3 max-w-screen-2xl flex flex-col items-center"
+  >
+    <div class="flex w-full flex-col items-center">
+      <div class="relative block w-full xl:max-w-[960px]">
+        <div class="w-full transform">
+          <Image
+            src={`${siteData.cdn}${siteData.site.image_id}`}
+            alt={siteData.site.name}
+            layout="fixed"
+            inferSize
+            format="webp"
+            priority
+            class="object-cover"
+          />
+        </div>
+      </div>
+
+      <div class="grid w-full max-w-xl gap-6 pt-6 md:grid-cols-2 md:gap-3">
+        <div class="flex max-w-[280px] flex-col items-start gap-3">
+          <h1 class="tracking-tightest text-lg font-[410]">
+            {siteData.site.name}
+          </h1>
+          <Button as="a" href={siteData.site.url} target="_blank">
+            {config.view_site}
+          </Button>
+        </div>
+        <div class="columns-2 gap-3 text-sm">
+          <div class="break-inside-avoid flex-col gap-1 pb-4">
+            <p>Note</p>
+            <p>
+              {
+                siteData.site.note > 0
+                  ? `${siteData.site.note} / 10`
+                  : "Aucune note"
+              }
+            </p>
+          </div>
+
+          <div class="break-inside-avoid flex-col gap-1 pb-4">
+            <p>Vérification</p>
+            <p>
+              {verificationDate}
+            </p>
+          </div>
+          <div class="break-inside-avoid flex-col gap-1 pb-4">
+            <p>Mis à jour</p>
+            <p>
+              {updatedDate}
+            </p>
+          </div>
+
+          <div class="break-inside-avoid flex-col gap-1 pb-4">
+            <p>Ajouté</p>
+            {createdAt}
+          </div>
+
+          <div class="break-inside-avoid flex-col gap-1 pb-4">
+            <p>Statut</p>
+            <p>
+              {
+                siteData.status.http_code === 202 || 200 || 403
+                  ? "En ligne"
+                  : siteData.status.status_text
+              }
+            </p>
+          </div>
+
+          <div class="break-inside-avoid flex-col gap-1 pb-4">
+            <p>Catégories</p>
+            <ul>
+              {
+                siteData.categories.map((category: Category) => (
+                  <li>
+                    <a
+                      href={`/${category.slug}`}
+                      class="hover:opacity-50 transition-all"
+                    >
+                      {category.title}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="max-w-[576px] pt-6">
+        <p set:html={siteData.site.description} />
+      </div>
+    </div>
+  </main></BaseLayout
+>
