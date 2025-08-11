@@ -1,0 +1,35 @@
+---
+import { SSApiService } from "#/lib/ss-api";
+import Layout from "#/layouts/layout.astro";
+
+export const prerender = false;
+
+const { category } = Astro.params;
+
+const ssApi = new SSApiService();
+
+const sites = await ssApi.category(category!);
+const seo = await ssApi.categorySeo(category!);
+
+if (sites.sites.length === 0) {
+  return Astro.redirect("/404");
+}
+
+---
+
+<Layout count={sites.sites.length} activeCategory={category}>
+  <head slot="head">
+    <title>{seo.seo_title}</title>
+    <meta name="description" content={seo.seo_description} />
+    <meta property="og:title" content={seo.seo_title} />
+    <meta property="og:description" content={seo.seo_description} />
+    <meta property="og:image" content={seo.seo_image} />
+    <meta property="og:url" content={seo.site_url} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={seo.seo_title} />
+    <meta name="twitter:description" content={seo.seo_description} />
+    <meta name="twitter:image" content={seo.seo_image} />
+    <meta name="twitter:url" content={seo.site_url} />
+    <link rel="canonical" href={seo.site_url} />
+  </head>
+</Layout>
