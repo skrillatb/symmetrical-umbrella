@@ -6,10 +6,6 @@ import BaseLayout from "#/layouts/base-layout.astro";
 const title = Astro.url.searchParams.get("title") ?? "";
 const data = [];
 
-console.log(
-  `${import.meta.env.VITE_APP_URL}api/search.json?title=${encodeURIComponent(title)}`
-);
-
 if (title) {
   const search = (await fetch(
     `${import.meta.env.VITE_APP_URL}api/search.json?title=${encodeURIComponent(title)}`
