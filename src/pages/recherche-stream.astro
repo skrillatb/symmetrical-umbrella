@@ -1,1 +1,63 @@
-<h1>Coucou</h1>
+---
+import SearchBox from "#/components/search-box.vue";
+import { config } from "#/config";
+import BaseLayout from "#/layouts/base-layout.astro";
+
+const title = Astro.url.searchParams.get("title") ?? "";
+const data = [];
+
+if (title) {
+  const search = (await fetch(
+    `http://localhost:4321/api/search.json?title=${encodeURIComponent(title)}`
+  )) as { ok: boolean; json: () => Promise<{ results: any[] }> };
+
+  if (search.ok) {
+    const json = await search.json();
+    if (Array.isArray(json?.results)) data.push(...json.results);
+  } else {
+    console.error("Search API error");
+  }
+}
+
+const getTimeOfDay = () => {
+  const hour = new Date().getHours();
+
+  if (hour >= 5 && hour < 11) return "ce matin";
+  if (hour >= 11 && hour < 14) return "ce midi";
+  if (hour >= 14 && hour < 18) return "cet après-midi";
+  if (hour >= 18 && hour < 22) return "ce soir";
+  return "cette nuit";
+};
+
+const momentText = getTimeOfDay();
+---
+
+<BaseLayout>
+  <head slot="head">
+    <title>
+      {
+        title
+          ? `Résultats de recherche pour "${title}"`
+          : config.search_page_title
+      }
+    </title>
+    <meta name="description" content={`Résultats de recherche pour ${title}`} />
+  </head>
+  <main class="pb-32 pt-3 px-3">
+    <div
+      class="flex flex-col justify-center items-center gap-7 mx-auto w-full mt-40 mb-5"
+    >
+      <h1 class="text-2xl md:text-3xl text-center">
+        {config.search_title}
+        {momentText} ?
+      </h1>
+    </div>
+    <SearchBox
+      client:load
+      initialQuery={title}
+      initialData={data}
+      endpoint="/api/search.json"
+      param="title"
+    />
+  </main>
+</BaseLayout>
