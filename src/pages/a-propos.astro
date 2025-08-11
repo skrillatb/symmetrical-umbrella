@@ -1,0 +1,73 @@
+---
+import { config } from "#/config";
+import BaseLayout from "#/layouts/base-layout.astro";
+---
+
+<BaseLayout>
+  <head slot="head">
+    <title>{config.site_name}</title>
+    <meta name="description" content={"Page À propos"} />
+  </head>
+
+  <main class="flex flex-col items-center gap-12 pt-10 pb-32">
+    <div class="grid w-full max-w-xl grid-cols-2 gap-3 px-3 py-12">
+      <h1 class="tracking-tightest text-2xl font-[410]">À propos</h1>
+      <p>
+        Pour toute question, suggestion, n'hésitez pas à nous contacter via
+        <a href={config.telegram_link} class="underline">telegram</a>.
+      </p>
+    </div>
+    <!-- QA 1 -->
+    <div class="grid gap-4">
+      <div class="mx-auto flex w-full max-w-xl flex-col px-3 gap-3">
+        <h2 class="text-lg font-[410]">
+          {config.about[0].qa}
+        </h2>
+        <div class="mx-auto flex w-full max-w-xl flex-col gap-3">
+          <p>
+            {config.about[0].text}
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- QA 2 -->
+    <div class="grid gap-4">
+      <div class="mx-auto flex w-full max-w-xl flex-col px-3 gap-3">
+        <h2 class="text-lg font-[410]">
+          {config.about[1].qa}
+        </h2>
+        <div class="mx-auto flex w-full max-w-xl flex-col gap-3">
+          <p>
+            {config.about[1].text}
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- QA 3 -->
+    <div class="grid gap-4">
+      <div class="mx-auto flex w-full max-w-xl flex-col px-3 gap-3">
+        <h2 class="text-lg font-[410]">
+          {config.about[2].qa}
+        </h2>
+        <div class="mx-auto flex w-full max-w-xl flex-col gap-3">
+          <p>
+            {config.about[2].text}
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- QA 4 -->
+    <div class="grid gap-4">
+      <div class="mx-auto flex w-full max-w-xl flex-col px-3 gap-3">
+        <h2 class="text-lg font-[410]">
+          {config.about[3].qa}
+        </h2>
+        <div class="mx-auto flex w-full max-w-xl flex-col gap-3">
+          <p>
+            {config.about[3].text}
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
