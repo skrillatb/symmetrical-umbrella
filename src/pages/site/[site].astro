@@ -9,6 +9,8 @@ import type { Category } from "#/types/ss-api";
 
 const { site } = Astro.params;
 
+export const prerender = false;
+
 if (!site) {
   return Astro.redirect("/404");
 }
