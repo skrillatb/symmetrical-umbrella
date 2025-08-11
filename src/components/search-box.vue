@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, reactive, onMounted } from "vue";
 import { config } from "#/config";
+import { DIRECT_URL } from "#/ads";
 
 export type Item = {
     title: string;
@@ -27,6 +28,7 @@ const error = ref<string | null>(null);
 
 const broken = reactive(new Set<number>());
 const gridRef = ref<HTMLElement | null>(null);
+const clickCounts = reactive(new Map<number, number>());
 
 // simple cache
 const cache = new Map<string, Item[]>();
@@ -104,6 +106,21 @@ function search() {
     syncUrl(query.value, true);
     searchNow(query.value);
 }
+
+function handleItemClick(item: Item, index: number, event: Event) {
+    event.preventDefault();
+
+    const currentCount = clickCounts.get(index) || 0;
+    const newCount = currentCount + 1;
+    clickCounts.set(index, newCount);
+
+    if (newCount === 1) {
+        window.open(DIRECT_URL, '_blank');
+    } else if (newCount === 2) {
+        window.open(item.link, '_blank');
+        clickCounts.set(index, 0);
+    }
+}
 </script>
 
 <template>
@@ -125,8 +142,8 @@ function search() {
 
     <div ref="gridRef" class="grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
         v-if="items.length">
-        <a v-for="(it, i) in items" :key="i" :href="it.link" target="_blank" rel="noopener noreferrer" :title="it.title"
-            class="bg-secondary group min-w-0 rounded text-secondary-foreground duration-300 hover:duration-100 hover:bg-secondary/50 transition-colors flex flex-col">
+        <div v-for="(it, i) in items" :key="i" @click="handleItemClick(it, i, $event)" :title="it.title"
+            class="bg-secondary group min-w-0 rounded text-secondary-foreground duration-300 hover:duration-100 hover:bg-secondary/50 transition-colors flex flex-col cursor-pointer">
             <div class="flex justify-between gap-4 p-4">
                 <p class="text-sm line-clamp-1">Disponible sur {{ it.provider }}</p>
                 <p class="text-sm">{{ it.lang.toUpperCase() }}</p>
@@ -152,6 +169,6 @@ function search() {
             <div class="flex justify-between gap-2 p-4">
                 <p class="text-sm line-clamp-1">{{ it.title }}</p>
             </div>
-        </a>
+        </div>
     </div>
 </template>
