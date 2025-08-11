@@ -7,8 +7,10 @@ import tailwindcss from '@tailwindcss/vite';
 
 import vue from '@astrojs/vue';
 
+
 // https://astro.build/config
 export default defineConfig({
+  site: import.meta.env.VITE_PRODUCTION_URL,
   adapter: cloudflare({
     platformProxy: {
       enabled: true
@@ -16,15 +18,15 @@ export default defineConfig({
     imageService: "cloudflare"
   }),
 
-  output: "server",
+  output: 'server',
 
   vite: {
     plugins: [tailwindcss()]
   },
 
   integrations: [vue()],
-
   devToolbar: {
     enabled: false
-  }
+  },
+
 });
