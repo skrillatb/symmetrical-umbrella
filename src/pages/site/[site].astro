@@ -3,8 +3,8 @@ import BaseLayout from "#/layouts/base-layout.astro";
 import { Image } from "astro:assets";
 import { getHumanDate } from "#/lib/utils";
 import { SSApiService } from "#/lib/ss-api";
-import Button from "#/components/button.astro";
 import { config } from "#/config";
+import { DIRECT_URL } from "#/ads";
 import type { Category } from "#/types/ss-api";
 
 const { site } = Astro.params;
@@ -52,7 +52,7 @@ const { humanDate: createdAt } = getHumanDate({
       content={siteData.site.description || "A site on our platform"}
     />
     <meta property="og:image" content={siteData.site.image_id} />
-    <meta property="og:url" content={`https://example.com/site/${site}`} />
+    <meta property="og:url" content={`${siteData.cdn}/${site}`} />
     <link
       rel="preload"
       as="image"
@@ -82,9 +82,14 @@ const { humanDate: createdAt } = getHumanDate({
           <h1 class="tracking-tightest text-lg font-[410]">
             {siteData.site.name}
           </h1>
-          <Button as="a" href={siteData.site.url} target="_blank">
+          <button
+            id="visit-site-btn"
+            class="!cursor-pointer flex whitespace-nowrap rounded-full items-center backdrop-blur-md justify-center tracking-tightest select-none font-[410] transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background h-10 px-4 gap-2 bg-black text-white hover:bg-black/80 shadow"
+            data-direct-url={DIRECT_URL}
+            data-site-url={siteData.site.url}
+          >
             {config.view_site}
-          </Button>
+          </button>
         </div>
         <div class="columns-2 gap-3 text-sm">
           <div class="break-inside-avoid flex-col gap-1 pb-4">
@@ -150,5 +155,29 @@ const { humanDate: createdAt } = getHumanDate({
         <p set:html={siteData.site.description} />
       </div>
     </div>
-  </main></BaseLayout
->
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const visitBtn = document.getElementById("visit-site-btn");
+      let clickCount = 0;
+
+      if (visitBtn) {
+        visitBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          clickCount++;
+
+          const directUrl = this.dataset.directUrl;
+          const siteUrl = this.dataset.siteUrl;
+
+          if (clickCount === 1) {
+            window.open(directUrl, "_blank");
+          } else if (clickCount === 2) {
+            window.open(siteUrl, "_blank");
+            clickCount = 0;
+          }
+        });
+      }
+    });
+  </script>
+</BaseLayout>
