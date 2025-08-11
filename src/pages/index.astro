@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "#/layouts/base-layout.astro";
-import Hero from "#/components/hero.astro";
 import { SSApiService } from "#/lib/ss-api";
+import Layout from "#/layouts/layout.astro";
+
 export const prerender = false;
 
 const ssApi = new SSApiService();
@@ -10,7 +10,7 @@ const seo = await ssApi.seo();
 const index = await ssApi.index();
 ---
 
-<BaseLayout>
+<Layout count={index.count} activeCategory={"/"}>
   <head slot="head">
     <title>{seo.seo_title}</title>
     <meta name="description" content={seo.seo_description} />
@@ -25,7 +25,5 @@ const index = await ssApi.index();
     <meta name="twitter:url" content={seo.site_url} />
     <link rel="canonical" href={seo.site_url} />
   </head>
-  <main class="pb-32 pt-3">
-    <Hero count={index.count} />
-  </main>
-</BaseLayout>
+  <section>mOI</section>
+</Layout>

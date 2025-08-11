@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+    --apple-music-color: #ef4444;
     --radius: 0.65rem;
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
@@ -48,6 +49,7 @@
     --radius-ts: 9999px;
     --color-background: var(--background);
     --color-foreground: var(--foreground);
+    --color-apple-music: var(--apple-music-color);
     --font-sans: var(--font-inter);
     --font-mono: var(--font-geist-mono);
     --color-sidebar-ring: var(--sidebar-ring);
@@ -102,4 +104,17 @@
         background-color: hsl(var(--background));
         color: hsl(var(--foreground));
     }
+}
+
+
+.scrollbar-hide {
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
