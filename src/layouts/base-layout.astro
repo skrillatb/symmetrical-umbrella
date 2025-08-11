@@ -1,7 +1,8 @@
 ---
 import "#/styles/global.css";
 import { ClientRouter } from "astro:transitions";
-import Header from "#/components/header.astro";---
+import Header from "#/components/header.astro";
+---
 
 <html lang="fr">
   <head>
@@ -16,6 +17,7 @@ import Header from "#/components/header.astro";---
       href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <slot name="head" />
     <ClientRouter transition:animate={"slide"} />
   </head>
