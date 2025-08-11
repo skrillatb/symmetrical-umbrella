@@ -2,6 +2,9 @@
 import { config } from "#/config.ts";
 import Badge from "#/components/badge.astro";
 import Eyes from "#/assets/eyes.svg";
+import Button from "./button.astro";
+
+const { count } = Astro.props;
 ---
 
 <section class="w-full border-b border-black/5">
@@ -13,12 +16,24 @@ import Eyes from "#/assets/eyes.svg";
       <header class="flex flex-col justify-end py-12 lg:pb-3 lg:pt-0">
         <div class="flex max-w-[288px] flex-col items-start gap-3">
           <div class="flex flex-col">
-            <h1 class="text-2xl font-[410] leading-tight opacity-50">
+            <h1
+              class="text-foreground text-2xl font-[410] leading-tight opacity-50"
+            >
               {config.hero_title}
             </h1>
-            <p class="text-2xl font-[410] leading-[1.15]">
+            <p class="text-foreground text-2xl font-[410] leading-[1.15]">
               {config.hero_subtitle}
             </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <Button as="a" href={config.hero_button_link}>
+              {config.hero_button_title}
+            </Button>
+            <span class="text-foreground/50 text-sm">
+              {count}
+              {config.hero_count}
+            </span>
           </div>
         </div>
       </header>
