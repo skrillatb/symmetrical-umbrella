@@ -1,5 +1,6 @@
 ---
 import "#/styles/global.css";
+import { ClientRouter } from "astro:transitions";
 ---
 
 <html lang="fr">
@@ -16,8 +17,8 @@ import "#/styles/global.css";
       rel="stylesheet"
     />
     <slot name="head" />
+    <ClientRouter transition:animate={"slide"} />
   </head>
-
   <body>
     <slot />
   </body>
