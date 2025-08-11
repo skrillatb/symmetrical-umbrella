@@ -33,3 +33,6 @@ wrangler.jsonc
 
 .github/
 src/config.ts
+
+public/sitemap-*.xml
+public/sitemap-index.xml
