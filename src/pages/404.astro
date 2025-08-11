@@ -1,1 +1,18 @@
-<h1>404</h1>
+---
+import Button from "#/components/button.astro";
+import BaseLayout from "#/layouts/base-layout.astro";
+---
+
+<BaseLayout>
+  <head slot="head">
+    <title>Page Not Found</title>
+    <meta name="robots" content="noindex" />
+  </head>
+  <main class="flex flex-col items-center justify-center min-h-screen py-12">
+    <h1 class="text-6xl font-bold text-muted-foreground mb-4">404</h1>
+    <p class="text-lg text-muted-foreground mb-8">
+      Oups, cette page n'existe pas.
+    </p>
+    <Button href="/">Retour à l'accueil</Button>
+  </main>
+</BaseLayout>
