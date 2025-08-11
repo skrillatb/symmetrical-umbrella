@@ -12,8 +12,6 @@ const ssApi = new SSApiService();
 
 const seo = await ssApi.seo();
 const sites = await ssApi.index();
-
-console.log("Index Data:", sites);
 ---
 
 <Layout count={sites.count} activeCategory={"/"}>
