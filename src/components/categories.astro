@@ -1,0 +1,50 @@
+---
+import { config } from "#/config";
+import type { Category } from "#/types/ss-api";
+import Button from "./button.astro";
+
+interface Props {
+  categories: Category[];
+  activeCategory?: string;
+}
+
+const { categories, activeCategory } = Astro.props;
+---
+
+<section class="relative overflow-hidden">
+  <div class="mx-auto w-full px-3 max-w-screen-2xl flex gap-3 py-3">
+    <div class="relative flex-1 overflow-x-scroll scrollbar-hide">
+      <div class="flex gap-1.5">
+        <Button
+          class:list={[
+            "tracking-tightest focus-visible:ring-ring ring-offset-background inline-flex h-10 select-none items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-4 font-[410] transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-black/5 text-black/50 hover:bg-black/10 hover:text-black",
+            {
+              "!bg-apple-music text-white hover:text-white":
+                activeCategory === "/",
+            },
+          ]}
+          href={`/`}
+          data-active-category={"/"}
+        >
+          {config.categories_all}
+        </Button>
+        {
+          categories.map((category) => (
+            <Button
+              class:list={[
+                "tracking-tightest focus-visible:ring-ring ring-offset-background inline-flex h-10 select-none items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-4 font-[410] transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-black/5 text-black/50 hover:bg-black/10 hover:text-black",
+                {
+                  "!bg-apple-music text-white hover:text-white":
+                    activeCategory === category.slug,
+                },
+              ]}
+              href={`/${category.slug}`}
+            >
+              {category.title}
+            </Button>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
