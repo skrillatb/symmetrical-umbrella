@@ -11,10 +11,9 @@ export default defineConfig({
     platformProxy: {
       enabled: true
     },
-
     imageService: "cloudflare"
   }),
-
+  output: "server",
   vite: {
     plugins: [tailwindcss()]
   }
