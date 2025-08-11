@@ -1,0 +1,31 @@
+---
+import BaseLayout from "#/layouts/base-layout.astro";
+import Hero from "#/components/hero.astro";
+import { SSApiService } from "#/lib/ss-api";
+export const prerender = false;
+
+const ssApi = new SSApiService();
+
+const seo = await ssApi.seo();
+const index = await ssApi.index();
+---
+
+<BaseLayout>
+  <head slot="head">
+    <title>{seo.seo_title}</title>
+    <meta name="description" content={seo.seo_description} />
+    <meta property="og:title" content={seo.seo_title} />
+    <meta property="og:description" content={seo.seo_description} />
+    <meta property="og:image" content={seo.seo_image} />
+    <meta property="og:url" content={seo.site_url} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={seo.seo_title} />
+    <meta name="twitter:description" content={seo.seo_description} />
+    <meta name="twitter:image" content={seo.seo_image} />
+    <meta name="twitter:url" content={seo.site_url} />
+    <link rel="canonical" href={seo.site_url} />
+  </head>
+  <main class="pb-32 pt-3">
+    <Hero count={index.count} />
+  </main>
+</BaseLayout>
