@@ -1,6 +1,8 @@
 ---
 import { SSApiService } from "#/lib/ss-api";
 import Layout from "#/layouts/layout.astro";
+import Container from "#/components/container.astro";
+import Card from "#/components/card.astro";
 
 export const prerender = false;
 
@@ -14,7 +16,6 @@ const seo = await ssApi.categorySeo(category!);
 if (sites.sites.length === 0) {
   return Astro.redirect("/404");
 }
-
 ---
 
 <Layout count={sites.sites.length} activeCategory={category}>
@@ -32,4 +33,17 @@ if (sites.sites.length === 0) {
     <meta name="twitter:url" content={seo.site_url} />
     <link rel="canonical" href={seo.site_url} />
   </head>
+  <Container>
+    {
+      sites.sites.map((site) => (
+        <Card
+          name={site.name}
+          image_id={site.image_id}
+          cdn={sites.cdn}
+          created_at={site.created_at}
+          updated_at={site.updated_at}
+        />
+      ))
+    }
+  </Container>
 </Layout>
