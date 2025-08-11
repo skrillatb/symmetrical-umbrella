@@ -11,7 +11,7 @@ dayjs.locale("fr");
 
 export function getHumanDate({ created_at, updated_at, updated = false }: {
     created_at: Date;
-    updated_at: Date;
+    updated_at?: Date;
     updated?: boolean;
 }) {
     const created = dayjs.utc(created_at).tz("Europe/Paris");
