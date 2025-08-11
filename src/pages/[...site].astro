@@ -1,5 +1,6 @@
 ---
-import BaseLayout from "../layouts/base-layout.astro";
+import BaseLayout from "#/layouts/base-layout.astro";
+import Hero from "#/components/hero.astro";
 export const prerender = false;
 const { site } = Astro.params;
 ---
@@ -8,4 +9,7 @@ const { site } = Astro.params;
   <head slot="head">
     <title>{site}</title>
   </head>
+  <main class="pb-32 pt-3">
+    <Hero />
+  </main>
 </BaseLayout>
