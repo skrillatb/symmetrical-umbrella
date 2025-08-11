@@ -6,6 +6,7 @@ import { SSApiService } from "#/lib/ss-api";
 import { config } from "#/config";
 import { DIRECT_URL } from "#/ads";
 import type { Category } from "#/types/ss-api";
+import AdsButton from "#/components/ads-button.vue";
 
 const { site } = Astro.params;
 
@@ -82,14 +83,12 @@ const { humanDate: createdAt } = getHumanDate({
           <h1 class="tracking-tightest text-lg font-[410]">
             {siteData.site.name}
           </h1>
-          <button
-            id="visit-site-btn"
-            class="!cursor-pointer flex whitespace-nowrap rounded-full items-center backdrop-blur-md justify-center tracking-tightest select-none font-[410] transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background h-10 px-4 gap-2 bg-black text-white hover:bg-black/80 shadow"
-            data-direct-url={DIRECT_URL}
-            data-site-url={siteData.site.url}
-          >
-            {config.view_site}
-          </button>
+          <AdsButton 
+            directUrl={DIRECT_URL}
+            siteUrl={siteData.site.url}
+            buttonText={config.view_site}
+            client:load
+          />
         </div>
         <div class="columns-2 gap-3 text-sm">
           <div class="break-inside-avoid flex-col gap-1 pb-4">
@@ -156,28 +155,4 @@ const { humanDate: createdAt } = getHumanDate({
       </div>
     </div>
   </main>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const visitBtn = document.getElementById("visit-site-btn");
-      let clickCount = 0;
-
-      if (visitBtn) {
-        visitBtn.addEventListener("click", function (e) {
-          e.preventDefault();
-          clickCount++;
-
-          const directUrl = this.dataset.directUrl;
-          const siteUrl = this.dataset.siteUrl;
-
-          if (clickCount === 1) {
-            window.open(directUrl, "_blank");
-          } else if (clickCount === 2) {
-            window.open(siteUrl, "_blank");
-            clickCount = 0;
-          }
-        });
-      }
-    });
-  </script>
 </BaseLayout>
