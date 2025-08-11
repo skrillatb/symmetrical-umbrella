@@ -1,16 +1,22 @@
 ---
 import { SSApiService } from "#/lib/ss-api";
 import Layout from "#/layouts/layout.astro";
+import Container from "#/components/container.astro";
+import { Image } from "astro:assets";
+import { getHumanDate } from "#/lib/utils";
+import Card from "#/components/card.astro";
 
 export const prerender = false;
 
 const ssApi = new SSApiService();
 
 const seo = await ssApi.seo();
-const index = await ssApi.index();
+const sites = await ssApi.index();
+
+console.log("Index Data:", sites);
 ---
 
-<Layout count={index.count} activeCategory={"/"}>
+<Layout count={sites.count} activeCategory={"/"}>
   <head slot="head">
     <title>{seo.seo_title}</title>
     <meta name="description" content={seo.seo_description} />
@@ -25,5 +31,17 @@ const index = await ssApi.index();
     <meta name="twitter:url" content={seo.site_url} />
     <link rel="canonical" href={seo.site_url} />
   </head>
-  <section>mOI</section>
+  <Container>
+    {
+      sites.sites.map((site) => (
+        <Card
+          name={site.name}
+          image_id={site.image_id}
+          cdn={sites.cdn}
+          created_at={site.created_at}
+          updated_at={site.updated_at}
+        />
+      ))
+    }
+  </Container>
 </Layout>
