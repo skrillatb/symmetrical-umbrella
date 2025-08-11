@@ -36,3 +36,5 @@ src/config.ts
 
 public/sitemap-*.xml
 public/sitemap-index.xml
+
+ads.ts
