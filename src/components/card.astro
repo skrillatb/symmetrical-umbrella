@@ -1,0 +1,47 @@
+---
+import { Image } from "astro:assets";
+import { getHumanDate } from "#/lib/utils";
+
+interface Props {
+  name: string;
+  image_id: string;
+  cdn: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+const { name, image_id, cdn, created_at, updated_at } = Astro.props;
+const { label, humanDate } = getHumanDate({
+  created_at,
+  updated_at,
+  updated: true,
+});
+---
+
+<article class="group cursor-pointer relative">
+  <Image
+    src={`${cdn}${image_id}`}
+    alt={name}
+    layout="fixed"
+    inferSize
+    format="webp"
+    priority
+    class="aspect-video h-auto w-full rounded object-cover transition-opacity duration-500 ease-out transform-gpu will-change-[opacity] group-hover:opacity-80"
+  />
+  <head>
+    <link rel="preload" as="image" href={`${cdn}${image_id}`} />
+  </head>
+  <div class="flex justify-between items-center my-2">
+    <p
+      class="group-hover:text-primary text-muted-foreground transition-colors duration-300"
+    >
+      {name}
+    </p>
+    <p
+      class="group-hover:text-primary text-muted-foreground text-sm transition-colors duration-300"
+    >
+      {label}
+      {humanDate}
+    </p>
+  </div>
+</article>
