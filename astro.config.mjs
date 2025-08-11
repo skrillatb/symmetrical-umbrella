@@ -22,5 +22,9 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  integrations: [vue()]
+  integrations: [vue()],
+
+  devToolbar: {
+    enabled: false
+  }
 });
