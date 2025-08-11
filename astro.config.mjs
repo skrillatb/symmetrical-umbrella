@@ -10,7 +10,7 @@ import vue from '@astrojs/vue';
 
 // https://astro.build/config
 export default defineConfig({
-  site: import.meta.env.VITE_PRODUCTION_URL,
+  site: import.meta.env.VITE_APP_URL,
   adapter: cloudflare({
     platformProxy: {
       enabled: true
