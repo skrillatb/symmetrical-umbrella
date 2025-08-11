@@ -1,0 +1,9 @@
+---
+const { cn } = Astro.props;
+---
+
+<div
+  class:list={["text-foreground bg-background text-xs px-2 py-1 rounded", cn]}
+>
+  <slot />
+</div>
