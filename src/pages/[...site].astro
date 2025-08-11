@@ -1,0 +1,11 @@
+---
+import BaseLayout from "../layouts/base-layout.astro";
+export const prerender = false;
+const { site } = Astro.params;
+---
+
+<BaseLayout>
+  <head slot="head">
+    <title>{site}</title>
+  </head>
+</BaseLayout>
