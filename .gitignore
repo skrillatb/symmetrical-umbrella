@@ -32,3 +32,4 @@ pnpm-debug.log*
 wrangler.jsonc
 
 .github/
+src/config.ts
