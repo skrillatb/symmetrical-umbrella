@@ -1,7 +1,7 @@
 ---
 import "#/styles/global.css";
 import { ClientRouter } from "astro:transitions";
----
+import Header from "#/components/header.astro";---
 
 <html lang="fr">
   <head>
@@ -21,5 +21,6 @@ import { ClientRouter } from "astro:transitions";
   </head>
   <body>
     <slot />
+    <Header />
   </body>
 </html>
